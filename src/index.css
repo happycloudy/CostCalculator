@@ -1,0 +1,38 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',monospace;
+}
+
+.App {
+  text-align: center;
+}
+
+.AddTaskWrap , .AddWorkerWrap {
+  margin-top: 10vh;
+  height: 30vh;
+  background-color: #EEEEEE;
+  border: 1px solid;
+  border-radius: 20px;
+}
+.Worker{
+  margin-top: 3vh;
+}
+
+
+.CostWrap{
+  margin-top: 10vh;
+  background-color: #EEEEEE;
+  border: 1px solid;
+  border-radius: 20px;
+  font-size: 1.4rem;
+}
+.moreInfo{
+  text-align: right;
+  font-size: 1.1rem;
+}
