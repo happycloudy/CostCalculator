@@ -7,6 +7,7 @@ export default class Cost extends React.Component{
     constructor(props) {
         super(props);
         this.state = {}
+        this.RemoveWorker = this.RemoveWorker.bind(this)
     }    
     
     async componentDidMount(){
@@ -20,6 +21,14 @@ export default class Cost extends React.Component{
         })   
         console.log(this.state)     
     }
+
+    async RemoveWorker(worker){
+        let data
+        await axios.post('/removeworker',worker)
+        .then( (res)=> data = res.data )
+        .catch( (err)=> console.log(err))
+        console.log(data);
+    }
     render(){
         return(
             <div className="CostWrap">
@@ -27,8 +36,8 @@ export default class Cost extends React.Component{
                     Затраты <br /> по сотрудникам
                 </h2>
 
-                {Object.values(this.state).map( (worker)=>       
-                    <div>
+                {Object.values(this.state).map( (worker,index)=>       
+                    <div key={worker.name}>
                     <Row className="Worker">
                         <Col className="Name">
                             {worker.name}
@@ -42,7 +51,8 @@ export default class Cost extends React.Component{
                     <div className="moreInfo">
                         Подробнее...
                     </div>
-                    <hr />
+                    <button className="btn btn-primary" onClick={()=> this.RemoveWorker(worker)}>Удалить сотрудника и его задачи</button>
+                    <hr/>
                     </div>
                 )}
             </div>

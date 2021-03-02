@@ -19,6 +19,36 @@ app.post('/addworker', async (req, res) => {
   return res.redirect('/')
 });
 
+app.post('/removeworker', (req,res) =>{
+  let RemovingName = req.body.name
+  let workers = []
+  let tasks = []
+
+  fs.createReadStream('./data/Workers.csv')
+  .pipe(csv())
+  .on('data', (data) => workers.push(data))
+  .on('end', () => {
+    fs.createReadStream('./data/Tasks.csv')
+      .pipe(csv())
+      .on('data', (data) => tasks.push(data))
+      .on('end', () => {
+        let RemovedArrOfWorkers = workers.filter( (worker)=> worker.name != RemovingName)
+        let RemovedArrOfTasks = tasks.filter( (task)=> task.name != RemovingName)
+        
+        fs.writeFileSync('./data/Workers.csv', 'name,payment\n')
+        RemovedArrOfWorkers.forEach((worker)=>{
+          fs.appendFileSync('./data/Workers.csv', `${worker.name},${worker.payment}\n`)
+        })
+        fs.writeFileSync('./data/Tasks.csv', 'name,task,time\n')
+        RemovedArrOfTasks.forEach((task)=>{
+          fs.appendFile('./data/Tasks.csv', `${task.name},${task.task},${task.time}\n`, err => err?console.log(err):null)
+        })
+
+        console.log('удален' + RemovingName);
+      })
+  })
+})
+
 app.get('/loadworkerswithcost', (req,res) =>{
   let workers = []
   fs.createReadStream('./data/Workers.csv')
@@ -40,10 +70,10 @@ app.get('/loadworkerswithcost', (req,res) =>{
           }
           workersWithFullCost.push(worker)
         })
-        console.log(workersWithFullCost);
         res.send(workersWithFullCost)
       });
   });
+
 
   function CalculateCost(worker,ArrOfTasks){
     let time = 0
@@ -51,12 +81,15 @@ app.get('/loadworkerswithcost', (req,res) =>{
     let Cost = time * worker.payment
     return(Cost)
   }
+
   function CalculateTime(ArrOfTasks){
     let time = 0
     ArrOfTasks.forEach(task => time += parseFloat(task.time))  
     return time
   }
 })
+
+
 
 app.post('/addworkertask', (req,res) =>{
   let task = {
