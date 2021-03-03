@@ -2,7 +2,6 @@ import {Col,Row} from 'react-bootstrap';
 import React from 'react';
 import axios from 'axios';
 import MoreInfo from './MoreInfo'
-// import popper from 'popper'
 
 
 export default class Cost extends React.Component{
@@ -18,7 +17,6 @@ export default class Cost extends React.Component{
         await axios.get('/loadworkerswithcost')
         .then( (res)=> {
             data= res.data
-            console.log(data);
         } )
         .catch( (err)=> console.log(err))
         data.forEach(worker => {
