@@ -12,6 +12,7 @@ export default class Cost extends React.Component{
         super(props);
         this.state = {}
         this.RemoveWorker = this.RemoveWorker.bind(this)
+        this.getTasks = this.getTasks.bind(this)
     }    
     
     async componentDidMount(){
@@ -19,14 +20,38 @@ export default class Cost extends React.Component{
         await axios.get('/loadworkerswithcost')
         .then( (res)=> data= res.data )
         .catch( (err)=> console.log(err))
-        data.forEach(worker => worker.isExists = true);
+        data.forEach(worker => {
+            worker.isExists = true
+            worker.tasks.forEach( task =>{
+                task.isExists = true
+            })
+        });
         this.setState({
                 ...this.state,
                 ...data
         })     
     }
 
-    
+    async getTasks(){
+        let data 
+        await axios.get('/getworkerstasks')
+        .then( (res)=> data= res.data )
+        .catch( (err)=> console.log(err))
+        console.log(data);
+        data.forEach(worker => {
+            worker.isExists = true
+            worker.tasks.forEach( task =>{
+                task.isExists = true
+            })
+        });
+        console.log(this.state);
+        this.setState({
+                ...this.state,
+                ...data
+        }) 
+    }
+
+
     RemoveWorker(worker){
         let ArrState = Object.values(this.state)
         ArrState.forEach( (ArrWorker)=>{
@@ -67,7 +92,7 @@ export default class Cost extends React.Component{
                             <button className="btn btn-primary" onClick={()=> this.RemoveWorker(worker)}>Удалить сотрудника и его задачи</button>
                         </Col>
                         <Col>
-                            <MoreInfo worker={worker}/>
+                            <MoreInfo worker={worker} getTasks={this.getTasks}/>
                         </Col>
                     </Row>
                     <hr/>

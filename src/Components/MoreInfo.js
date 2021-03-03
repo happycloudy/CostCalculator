@@ -1,12 +1,15 @@
 import {Button,Modal,ListGroup} from 'react-bootstrap'
 import {useState,useEffect} from 'react'
-import axios from 'axios'
 import RemoveTaskBtn from './RemoveTaskBtn'
 
 export default function MoreInfo(props){
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleShow = async () => {
+    // console.log(props);
+    // await props.getTasks()
+    setShow(true)
+  }
       
   return (
     <>
@@ -40,9 +43,6 @@ export default function MoreInfo(props){
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          {/* <Button variant="primary" onClick={handleClose}>
-            Save Changes
-          </Button> */}
         </Modal.Footer>
       </Modal>
     </>

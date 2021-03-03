@@ -18,7 +18,6 @@ app.post('/addworker', async (req, res) => {
     payment: req.body.WorkerCost
   }
   fs.appendFile('./data/Workers.csv', `${worker.name},${worker.payment}\n`, err => err?console.log(err):null)
-  
   return res.redirect('/')
 });
 
@@ -59,7 +58,6 @@ app.post('/removeworker', (req,res) =>{
 
 app.get('/getworkerstasks', (req,res)=>{
   let tasks = []
-
   fs.createReadStream('./data/Tasks.csv')
       .pipe(csv())
       .on('data', (data) => tasks.push(data))
@@ -113,6 +111,30 @@ app.get('/loadworkerswithcost', (req,res) =>{
   }
 })
 
+
+app.post('/removetask',(req,res)=>{
+  let TaskInfo = req.body
+  let tasks = [] 
+  fs.createReadStream('./data/Tasks.csv')
+    .pipe(csv())
+    .on('data', (data) => tasks.push(data))
+    .on('end', () => {
+      let RemovedArrOfTasks = tasks.filter((task) => {
+        if(task.name == TaskInfo.name){ 
+          if(task.task == TaskInfo.task){
+            return false
+          }
+        }
+        return true
+      }) 
+      fs.writeFileSync('./data/Tasks.csv', 'name,task,time\n')
+      RemovedArrOfTasks.forEach((task) => {
+        fs.appendFile('./data/Tasks.csv', `${task.name},${task.task},${task.time}\n`, err => err ? console.log(err) : null)
+      })
+      console.log('удалено задание: ' + TaskInfo.task + ', ' + TaskInfo.name);
+    })
+  res.send(true)
+})
 
 
 
