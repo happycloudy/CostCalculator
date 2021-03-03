@@ -3,13 +3,13 @@ const bodyParser = require('body-parser')
 const path = require('path');
 const fs = require('fs')
 const csv = require('csv-parser')
-const getInfo = require('./external/getInfo')
+const FileRoutes = require('./routes/FileRoutes')
 
 const app = express();
 app.use(express.static(path.join(__dirname, 'build')));
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
-
+app.use('',FileRoutes)
 
 
 app.post('/addworker', async (req, res) => {
@@ -20,7 +20,6 @@ app.post('/addworker', async (req, res) => {
   fs.appendFile('./data/Workers.csv', `${worker.name},${worker.payment}\n`, err => err?console.log(err):null)
   return res.redirect('/')
 });
-
 
 
 
@@ -48,7 +47,7 @@ app.post('/removeworker', (req,res) =>{
         RemovedArrOfTasks.forEach((task)=>{
           fs.appendFile('./data/Tasks.csv', `${task.name},${task.task},${task.time}\n`, err => err?console.log(err):null)
         })
-        console.log('удален' + RemovingName);
+        console.log('удален ' + RemovingName);
       })
       res.redirect('/')
   })
@@ -56,7 +55,7 @@ app.post('/removeworker', (req,res) =>{
 
 
 
-app.get('/getworkerstasks', (req,res)=>{
+app.get('/getworkerstasks', (req,res)=>{ // не используется 
   let tasks = []
   fs.createReadStream('./data/Tasks.csv')
       .pipe(csv())
@@ -64,7 +63,7 @@ app.get('/getworkerstasks', (req,res)=>{
       .on('end', () => {
         res.send(tasks)
       });
-})
+}) 
 
 
 

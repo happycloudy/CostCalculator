@@ -11,3 +11,4 @@ module.exports = function getInfo(inputPath){
             return array
         })
 }
+// В разработке
