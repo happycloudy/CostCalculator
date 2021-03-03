@@ -7,12 +7,11 @@ import MoreInfo from './MoreInfo'
 
 
 export default class Cost extends React.Component{
-    // eslint-disable-next-line no-useless-constructor
     constructor(props) {
         super(props);
         this.state = {}
         this.RemoveWorker = this.RemoveWorker.bind(this)
-        this.getTasks = this.getTasks.bind(this)
+        this.ReloadInfo = this.ReloadInfo.bind(this)
     }    
     
     async componentDidMount(){
@@ -32,37 +31,36 @@ export default class Cost extends React.Component{
         })     
     }
 
-    async getTasks(){
+    ReloadInfo(){
         let data 
-        await axios.get('/getworkerstasks')
-        .then( (res)=> data= res.data )
+        axios.get('/loadworkerswithcost')
+        .then( (res)=> {
+            data= res.data
+            data.forEach(worker => {
+                worker.isExists = true
+                worker.tasks.forEach( task =>{
+                    task.isExists = true
+                })
+            });
+            this.setState({
+                    ...this.state,
+                    ...data
+            }) 
+        })
         .catch( (err)=> console.log(err))
-        console.log(data);
-        data.forEach(worker => {
-            worker.isExists = true
-            worker.tasks.forEach( task =>{
-                task.isExists = true
-            })
-        });
-        console.log(this.state);
-        this.setState({
-                ...this.state,
-                ...data
-        }) 
     }
 
 
     RemoveWorker(worker){
         let ArrState = Object.values(this.state)
         ArrState.forEach( (ArrWorker)=>{
-            if(worker.name == ArrWorker.name) ArrWorker.isExists = false
+            if(worker.name === ArrWorker.name) ArrWorker.isExists = false
         })
         axios.post('/removeworker',worker)
         .then( (res)=> {
             this.setState({
                 ...ArrState
             })
-            console.log(this.state)
         })
         .catch( (err)=> console.log(err))
     } 
@@ -92,7 +90,7 @@ export default class Cost extends React.Component{
                             <button className="btn btn-primary" onClick={()=> this.RemoveWorker(worker)}>Удалить сотрудника и его задачи</button>
                         </Col>
                         <Col>
-                            <MoreInfo worker={worker} getTasks={this.getTasks}/>
+                            <MoreInfo worker={worker} ReloadInfo={this.ReloadInfo}/>
                         </Col>
                     </Row>
                     <hr/>

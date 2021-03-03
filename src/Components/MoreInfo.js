@@ -1,19 +1,21 @@
 import {Button,Modal,ListGroup} from 'react-bootstrap'
-import {useState,useEffect} from 'react'
+import {useState} from 'react'
 import RemoveTaskBtn from './RemoveTaskBtn'
 
 export default function MoreInfo(props){
   const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = async () => {
-    // console.log(props);
-    // await props.getTasks()
+  const handleClose = () => {
+    props.ReloadInfo()
+    setShow(false)
+  }
+  const handleShow = () => {
+    props.ReloadInfo()
     setShow(true)
   }
       
   return (
     <>
-      {props.worker.tasks.length !=  0?
+      {props.worker.tasks.length !==  0?
       <Button variant="primary" onClick={handleShow}>
         Подробнее...
       </Button>:
@@ -41,7 +43,7 @@ export default function MoreInfo(props){
         
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
-            Close
+            Закрыть
           </Button>
         </Modal.Footer>
       </Modal>
