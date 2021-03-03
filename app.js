@@ -3,11 +3,14 @@ const bodyParser = require('body-parser')
 const path = require('path');
 const fs = require('fs')
 const csv = require('csv-parser')
+const getInfo = require('./external/getInfo')
 
 const app = express();
 app.use(express.static(path.join(__dirname, 'build')));
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
+
+
 
 app.post('/addworker', async (req, res) => {
   let worker = {
@@ -18,6 +21,9 @@ app.post('/addworker', async (req, res) => {
   
   return res.redirect('/')
 });
+
+
+
 
 app.post('/removeworker', (req,res) =>{
   let RemovingName = req.body.name
@@ -43,11 +49,26 @@ app.post('/removeworker', (req,res) =>{
         RemovedArrOfTasks.forEach((task)=>{
           fs.appendFile('./data/Tasks.csv', `${task.name},${task.task},${task.time}\n`, err => err?console.log(err):null)
         })
-
         console.log('удален' + RemovingName);
       })
+      res.redirect('/')
   })
 })
+
+
+
+app.get('/getworkerstasks', (req,res)=>{
+  let tasks = []
+
+  fs.createReadStream('./data/Tasks.csv')
+      .pipe(csv())
+      .on('data', (data) => tasks.push(data))
+      .on('end', () => {
+        res.send(tasks)
+      });
+})
+
+
 
 app.get('/loadworkerswithcost', (req,res) =>{
   let workers = []
@@ -65,13 +86,16 @@ app.get('/loadworkerswithcost', (req,res) =>{
           let ArrOfTasks = tasks.filter((task) => task.name === worker.name )
           worker = {
             name : worker.name,
+            payment : worker.payment,
             cost: CalculateCost(worker,ArrOfTasks) || 0,
-            time: CalculateTime(ArrOfTasks)
+            time: CalculateTime(ArrOfTasks),
+            tasks: ArrOfTasks
           }
           workersWithFullCost.push(worker)
         })
         res.send(workersWithFullCost)
       });
+      
   });
 
 
@@ -91,20 +115,33 @@ app.get('/loadworkerswithcost', (req,res) =>{
 
 
 
+
+
 app.post('/addworkertask', (req,res) =>{
   let task = {
     name: req.body.name,
     task: req.body.task,
     time: req.body.time
   }
-  console.log(task);
   fs.appendFile('./data/Tasks.csv', `${task.name},${task.task},${task.time}\n`, err => err?console.log(err):null)
   
   return res.redirect('/')
 })
+
+
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
 app.listen(process.env.PORT || 8080);
+
+
+
+
+
+
+
+// TODO для остальных : написать документацию( как пользоваться приложением со скринами и красивым оформлением)
+// Всевозможно протестировать
+

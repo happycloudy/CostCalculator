@@ -2,21 +2,23 @@ import {Container} from 'react-bootstrap';
 import AddWorker from './Components/AddWorker'
 import AddTask from './Components/AddTask'
 import Cost from './Components/Cost'
+import React from 'react'
 
-function App() {
-  
-  
-  return (
-    <div className="App">
-      <Container>  
+class App extends React.Component{
 
-      <AddWorker/>
-      <AddTask/>
-      <Cost/>
-      
-      </Container>
-    </div>
-  );
+  render(){
+    return (
+      <div className="App">
+        <Container>  
+
+        <AddWorker/>
+        <AddTask/>
+        <Cost/>
+
+        </Container>
+      </div>
+    );
+  }
 }
 
 export default App;

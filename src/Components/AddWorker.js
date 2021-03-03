@@ -11,13 +11,13 @@ export default function AddWorker(){
             <h3>
               Сотрудник
             </h3>
-            <input className="WorkerField" name="WorkerName"/>
+            <input className="WorkerField" name="WorkerName" required/>
           </Col>
           <Col>
             <h3>
               ЗП $ / час
             </h3>
-            <input className="WorkerCostField" name="WorkerCost"/>
+            <input className="WorkerCostField" name="WorkerCost" required/>
           </Col>
         </Row>
         <Button variant="primary" type="submit" style={{marginTop: "30px"}} >
