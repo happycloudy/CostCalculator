@@ -11,10 +11,15 @@ export default class AddTask extends React.Component{
       workers: [],
       text: ''
     }
-    
+    this.handleChange = this.handleChange.bind(this)
+    this.RefreshData = this.RefreshData.bind(this)
   }
   
-  async componentDidMount(){
+  componentDidMount(){
+    this.RefreshData()
+  }
+
+  async RefreshData(){
     let data
     await axios.get('/loadworkerswithcost')
     .then( (res)=> {
@@ -29,7 +34,15 @@ export default class AddTask extends React.Component{
       workers: workers,
       text: this.state.text
     })
-    console.log(this.state);
+  }
+
+  handleChange(e){
+    this.RefreshData()
+    this.setState(
+      {
+        workers: this.state.workers,
+        text: e.target.value                    
+      })
   }
   render(){
     return(
@@ -43,11 +56,7 @@ export default class AddTask extends React.Component{
               <h3>Сотрудник</h3>
               <div style={{display:'flex', alignItems:'center', justifyContent: 'center'}}>
                 <Hint options={this.state.workers} allowTabFill className="WorkerField">
-                  <input className="WorkerField" value={this.state.text} onChange={e=> this.setState(
-                    {
-                      workers: this.state.workers,
-                      text: e.target.value                    
-                    })} name="name" required/>
+                  <input className="WorkerField" value={this.state.text} onChange={e=> this.handleChange(e)} name="name" required/>
                 </Hint>
               </div>
           </Col>
