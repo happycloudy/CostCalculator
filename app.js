@@ -1,8 +1,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const path = require('path');
-const fs = require('fs')
-const csv = require('csv-parser')
+const cors = require('cors')
 const FileRoutes = require('./routes/FileRoutes')
 
 const app = express();
@@ -10,6 +9,7 @@ app.use(express.static(path.join(__dirname, 'build')));
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
 app.use('',FileRoutes)
+app.use(cors())
 
 
 
