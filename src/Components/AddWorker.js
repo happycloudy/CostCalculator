@@ -1,7 +1,9 @@
 import {Col,Row, Button} from 'react-bootstrap';
-import React from 'react';
+import {React,useState} from 'react';
+import NotNumberToolTipField from "./NotNumberToolTipField";
 
 export default function AddWorker(){
+  const [isSubmitted,setIsSubmitted] = useState(false)
   return(
       <div className="AddWorkerWrap">
       <h2>Добавить сотрудника</h2>
@@ -17,12 +19,15 @@ export default function AddWorker(){
             <h3>
               ЗП $ / час
             </h3>
-            <input className="WorkerCostField" name="WorkerCost" required/>
+            <NotNumberToolTipField name="WorkerCost" setIsSubmitted={(isSubmitted)=>{setIsSubmitted(isSubmitted)}}/>
           </Col>
         </Row>
-        <Button variant="primary" type="submit" style={{marginTop: "30px"}} >
-          Добавить
-        </Button>
+        {isSubmitted?
+            <Button variant="primary" type="submit" style={{marginTop: "30px"}} >
+              Добавить
+            </Button>
+        :
+        null}
       </form>
     </div>
   )
