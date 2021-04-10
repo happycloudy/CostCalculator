@@ -1,6 +1,7 @@
 import {Button,Modal,ListGroup} from 'react-bootstrap'
 import {useState} from 'react'
 import RemoveTaskBtn from './RemoveTaskBtn'
+import moment from "moment";
 
 export default function MoreInfo(props){
   const [show, setShow] = useState(false);
@@ -31,9 +32,12 @@ export default function MoreInfo(props){
         <Modal.Body>
           <ListGroup>
             {props.worker.tasks.map((task)=>{
+              let EndDate = moment(task.EndTime, 'YYYY-MM-DD')
+              EndDate = `${EndDate.date()}.${EndDate.month()}.${EndDate.year()}`
               return(
                 <ListGroup.Item key={task.task}>
                   {task.task}
+                  <br/>До {EndDate}
                 <RemoveTaskBtn task={task}/>
                 </ListGroup.Item>
               )

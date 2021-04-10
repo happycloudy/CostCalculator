@@ -28,7 +28,7 @@ export default class Cost extends React.Component{
         this.setState({
                 ...this.state,
                 ...data
-        })     
+        })
     }
 
     ReloadInfo(){
@@ -77,17 +77,17 @@ export default class Cost extends React.Component{
                     <div key={worker.name}>
                     <Row className="Worker">
                         <Col className="Name">
-                            {worker.name}(ЗП {worker.payment}$)
+                            {worker.name}(ЗП {worker.payment}$ , {worker.specialty})
                             <br />{worker.cost}$
                         </Col>
                         <Col className="SpentTime">
                             Суммарно затраченное
-                        время:<br />{worker.time} часов
+                        время:<br />{worker.time} дней
                         </Col>
                     </Row>
                     <Row style={{marginTop: '30px'}}>
                         <Col>
-                            <button className="btn btn-primary" onClick={()=> this.RemoveWorker(worker)}>Удалить сотрудника и его задачи</button>
+                            <button className="btn btn-danger" onClick={()=> this.RemoveWorker(worker)}>Удалить сотрудника и его задачи</button>
                         </Col>
                         <Col>
                             <MoreInfo worker={worker} ReloadInfo={this.ReloadInfo}/>

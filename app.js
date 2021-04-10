@@ -12,8 +12,6 @@ app.use('',FileRoutes)
 app.use(cors())
 
 
-
-
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
@@ -25,7 +23,7 @@ app.listen(process.env.PORT || 8083,()=>{
 
 
 
-
+//График не грузится
 
 
 // TODO для остальных : написать документацию( как пользоваться приложением со скринами и красивым оформлением)
