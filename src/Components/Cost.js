@@ -14,7 +14,7 @@ export default class Cost extends React.Component{
     
     async componentDidMount(){
         let data
-        await axios.get('http://c3.team21.ru:8083/loadworkerswithcost')
+        await axios.get('/loadworkerswithcost')
         .then( (res)=> {
             data= res.data
         } )
@@ -33,7 +33,7 @@ export default class Cost extends React.Component{
 
     ReloadInfo(){
         let data 
-        axios.get('http://c3.team21.ru:8083/loadworkerswithcost')
+        axios.get('/loadworkerswithcost')
         .then( (res)=> {
             data= res.data
             data.forEach(worker => {
@@ -56,7 +56,7 @@ export default class Cost extends React.Component{
         ArrState.forEach( (ArrWorker)=>{
             if(worker.name === ArrWorker.name) ArrWorker.isExists = false
         })
-        axios.post('http://c3.team21.ru:8083/removeworker',worker)
+        axios.post('/removeworker',worker)
         .then( (res)=> {
             this.setState({
                 ...ArrState
