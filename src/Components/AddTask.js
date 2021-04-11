@@ -1,4 +1,4 @@
-import {Col, Row, Button, Dropdown} from 'react-bootstrap';
+import {Col, Row, Button, Dropdown, OverlayTrigger, Popover} from 'react-bootstrap';
 import React from 'react'
 import axios from 'axios'
 import moment from 'moment'
@@ -20,12 +20,18 @@ export default class AddTask extends React.Component {
             isSubmitted: false,
             isAlphabetFieldRight: false,
             isOverWorkRequest: false,
-            isSpecialtyRequest: false
+            isSpecialtyRequest: false,
+            isSent: false
         }
         this.RefreshData = this.RefreshData.bind(this)
         this.setIsSubmitted = this.setIsSubmitted.bind(this)
         this.SendWorkerTask = this.SendWorkerTask.bind(this)
         this.ParseForm = this.ParseForm.bind(this);
+        this.popover = (
+            <Popover id="popover-basic">
+                <Popover.Title as="h3">Задание отправлено</Popover.Title>
+            </Popover>
+        );
     }
 
     componentDidMount() {
@@ -73,8 +79,18 @@ export default class AddTask extends React.Component {
             StartTime: `${StartDate.getFullYear()}-${StartDate.getMonth()}-${StartDate.getDate()}`,
             EndTime: `${EndDate.year()}-${EndDate.month()}-${EndDate.date()}`,
             isChooseBtwSp: this.state.currentSpecialty
+        }).then(res=>{
+            if(res.status === 200){
+                this.setState({
+                    isSent: true
+                })
+                setTimeout(()=>{
+                    this.setState({
+                        isSent: false
+                    })
+                },3000)
+            }
         })
-
     }
 
     ParseForm(e){
@@ -172,9 +188,11 @@ export default class AddTask extends React.Component {
                         </Col>
                     </Row>
                     {this.state.isSubmitted?
-                        <Button variant="primary" type="submit" style={{marginTop: "30px"}}>
-                        Добавить задание
-                        </Button>
+                        <OverlayTrigger trigger="click"  placement="right" show={this.state.isSent} overlay={this.popover}>
+                            <Button variant="primary" type="submit" style={{marginTop: "30px"}} >
+                                Добавить задание
+                            </Button>
+                        </OverlayTrigger>
                     :
                     null}
                 </form>

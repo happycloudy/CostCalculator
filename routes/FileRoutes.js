@@ -204,7 +204,7 @@ router.post('/addworkertask', (req, res) => {
         fs.appendFile('./data/Tasks.csv', `${incomingTask.name},${incomingTask.task},${incomingTask.StartTime},${incomingTask.EndTime},${incomingTask.time},${incomingTask.isOWRequest}\n`, err => err ? console.log(err) : null)
         console.log(`Задание для ${incomingTask.name} добавлено`)
     }
-    return res.redirect('/')
+    return res.sendStatus(200)
 })
 
 router.get('/getspecialties', (req, res) => {
