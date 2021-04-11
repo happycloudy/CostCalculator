@@ -16,8 +16,8 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
-app.listen(process.env.PORT || 8083,()=>{
-  console.log("Сервер запущен на порту " + (process.env.PORT || 8083))
+app.listen(process.env.PORT || 5001,()=>{
+  console.log("Сервер запущен на порту " + (process.env.PORT || 5001))
 });
 
 
