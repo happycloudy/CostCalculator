@@ -74,6 +74,7 @@ export default class AddTask extends React.Component {
             EndTime: `${EndDate.year()}-${EndDate.month()}-${EndDate.date()}`,
             isChooseBtwSp: this.state.currentSpecialty
         })
+
     }
 
     ParseForm(e){

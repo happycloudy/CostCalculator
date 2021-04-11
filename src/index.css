@@ -13,6 +13,9 @@ code {
   text-align: center;
 }
 
+.AddWorkerWrap{
+  height: 30vh !important;
+}
 .AddTaskWrap , .AddWorkerWrap {
   margin-top: 10vh;
   height: 55vh;

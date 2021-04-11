@@ -166,20 +166,21 @@ router.post('/addworkertask', (req, res) => {
         isChooseBtwSp: req.body.isChooseBtwSp
     }
     let tasks = []
+
     if (incomingTask.isSpRequest) {
         console.log('Минимум среди всех')
         fs.createReadStream('./data/Tasks.csv')
             .pipe(csv())
             .on('data', (data) => tasks.push(data))
             .on('end', () => {
-                let workerWthMinTime = getMinTimeWorker(tasks,undefined)
+                let workerWthMinTime = getMinTimeWorker(tasks, undefined)
                 fs.appendFile('./data/Tasks.csv', `${workerWthMinTime.name},${incomingTask.task},${incomingTask.StartTime},${incomingTask.EndTime},${incomingTask.time},${incomingTask.isOWRequest}\n`, err => err ? console.log(err) : null)
                 console.log(`Задание для ${workerWthMinTime.name} добавлено`)
             })
     }
 
-    if (incomingTask.name === undefined && !incomingTask.isSpRequest) {
-        if (incomingTask.isChooseBtwSp && incomingTask.isChooseBtwSp !== 'Не выбран')
+    if (!incomingTask.isSpRequest) {
+        if (incomingTask.isChooseBtwSp && incomingTask.isChooseBtwSp !== 'Не выбран') {
             console.log('Выбрана специальность, минимум по специальности')
             fs.createReadStream('./data/Tasks.csv')
                 .pipe(csv())
@@ -190,13 +191,15 @@ router.post('/addworkertask', (req, res) => {
                         .pipe(csv())
                         .on('data', (data) => workers.push(data))
                         .on('end', () => {
-                            let workerWthMinTime = getMinTimeWorker(tasks,incomingTask.isChooseBtwSp, workers)
+                            let workerWthMinTime = getMinTimeWorker(tasks, incomingTask.isChooseBtwSp, workers)
                             fs.appendFile('./data/Tasks.csv', `${incomingTask.name},${incomingTask.task},${incomingTask.StartTime},${incomingTask.EndTime},${incomingTask.time},${incomingTask.isOWRequest}\n`, err => err ? console.log(err) : null)
                             console.log(`Задание для ${workerWthMinTime.name} добавлено`)
                         })
                 })
+        }
     }
-    if (incomingTask.name !== undefined && !incomingTask.isSpRequest) {
+
+    if (incomingTask.name !== undefined && !incomingTask.isSpRequest && (incomingTask.isChooseBtwSp === 'Не выбран' || incomingTask.isChooseBtwSp === undefined) ) {
         console.log("Ничего не поменялось")
         fs.appendFile('./data/Tasks.csv', `${incomingTask.name},${incomingTask.task},${incomingTask.StartTime},${incomingTask.EndTime},${incomingTask.time},${incomingTask.isOWRequest}\n`, err => err ? console.log(err) : null)
         console.log(`Задание для ${incomingTask.name} добавлено`)

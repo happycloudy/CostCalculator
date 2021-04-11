@@ -11,7 +11,9 @@ export default function AddWorker(){
   return(
       <div className="AddWorkerWrap">
       <h2>Добавить сотрудника</h2>
-      <form className="AddWorker" action="/addworker" method="POST">
+      <form className="AddWorker"
+            action="/addworker"
+            method="POST">
         <Row>
           <Col>
             <h3>
