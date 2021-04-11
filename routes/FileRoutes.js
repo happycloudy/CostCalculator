@@ -172,7 +172,7 @@ router.post('/addworkertask', (req, res) => {
             .on('data', (data) => tasks.push(data))
             .on('end', () => {
                 let workerWthMinTime = getMinTimeWorker(tasks,undefined)
-                // fs.appendFile('./data/Tasks.csv', `${workerWthMinTime.name},${incomingTask.task},${incomingTask.StartTime},${incomingTask.EndTime},${incomingTask.time},${incomingTask.isOWRequest}\n`, err => err ? console.log(err) : null)
+                fs.appendFile('./data/Tasks.csv', `${workerWthMinTime.name},${incomingTask.task},${incomingTask.StartTime},${incomingTask.EndTime},${incomingTask.time},${incomingTask.isOWRequest}\n`, err => err ? console.log(err) : null)
                 console.log(`Задание для ${workerWthMinTime.name} добавлено`)
             })
     }
@@ -190,17 +190,17 @@ router.post('/addworkertask', (req, res) => {
                         .on('data', (data) => workers.push(data))
                         .on('end', () => {
                             let workerWthMinTime = getMinTimeWorker(tasks,incomingTask.isChooseBtwSp, workers)
-                            //fs.appendFile('./data/Tasks.csv', `${incomingTask.name},${incomingTask.task},${incomingTask.StartTime},${incomingTask.EndTime},${incomingTask.time},${incomingTask.isOWRequest}\n`, err => err ? console.log(err) : null)
+                            fs.appendFile('./data/Tasks.csv', `${incomingTask.name},${incomingTask.task},${incomingTask.StartTime},${incomingTask.EndTime},${incomingTask.time},${incomingTask.isOWRequest}\n`, err => err ? console.log(err) : null)
                             console.log(`Задание для ${workerWthMinTime.name} добавлено`)
                         })
                 })
     }
     if (incomingTask.name !== undefined && !incomingTask.isSpRequest) {
         console.log("Ничего не поменялось")
-        // fs.appendFile('./data/Tasks.csv', `${incomingTask.name},${incomingTask.task},${incomingTask.StartTime},${incomingTask.EndTime},${incomingTask.time},${incomingTask.isOWRequest}\n`, err => err ? console.log(err) : null)
+        fs.appendFile('./data/Tasks.csv', `${incomingTask.name},${incomingTask.task},${incomingTask.StartTime},${incomingTask.EndTime},${incomingTask.time},${incomingTask.isOWRequest}\n`, err => err ? console.log(err) : null)
         console.log(`Задание для ${incomingTask.name} добавлено`)
     }
-    return res.sendStatus(200)
+    return res.redirect('/')
 })
 
 router.get('/getspecialties', (req, res) => {
