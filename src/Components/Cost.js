@@ -48,6 +48,9 @@ export default class Cost extends React.Component{
             }) 
         })
         .catch( (err)=> console.log(err))
+        axios.get('/getworkerstasks').then(res=>{
+            console.log(res.data)
+        })
     }
 
 

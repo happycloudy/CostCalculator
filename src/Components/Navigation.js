@@ -3,6 +3,9 @@ import {Navbar,Nav} from 'react-bootstrap'
 import {Link} from 'react-router-dom'
 
 export default function Navigation(){
+    let color = {
+        color: 'gray'
+    }
     return(
         <Navbar bg="light" expand="lg">
             <Navbar.Brand href="#home">Cost Calculator</Navbar.Brand>
@@ -10,17 +13,17 @@ export default function Navigation(){
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">
                     <Nav.Link>
-                        <Link to='/'>
+                        <Link style={color} to='/'>
                             Главная
                         </Link>
                     </Nav.Link>
                     <Nav.Link>
-                        <Link to='/workers'>
+                        <Link style={color} to='/workers'>
                             Сотрудники
                         </Link>
                     </Nav.Link>
                     <Nav.Link >
-                        <Link to='/timeline'>
+                        <Link style={color} to='/timeline'>
                             Таймлайн
                         </Link>
                     </Nav.Link>

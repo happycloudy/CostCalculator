@@ -55,8 +55,8 @@ router.get('/getworkerstasks', (req, res) => { // не используется
             let tasksGroupedByName = []
             tasks.forEach(task => {
                 let worker = tasksGroupedByName.find(worker => worker.name === task.name)
-                worker = worker === undefined ? {name: undefined} : worker
-                if (task.name !== worker.name && worker.name !== undefined) { // была ошибка с вопросами(знаками :///)
+                worker = worker === undefined ? {name: undefined, tasks: undefined} : worker
+                if (task.name !== worker.name && worker.name === undefined) { // была ошибка с вопросами(знаками :///)
                     tasksGroupedByName.push(
                         {
                             name: task.name,
@@ -66,7 +66,8 @@ router.get('/getworkerstasks', (req, res) => { // не используется
                 }
             })
             tasks.forEach(task => {
-                tasksGroupedByName.find(worker => worker.name === task.name).tasks.push(
+                let worker = tasksGroupedByName.find(worker => worker.name === task.name)
+                worker.tasks.push(
                     {
                         task: task.task,
                         StartTime: task.StartTime,
