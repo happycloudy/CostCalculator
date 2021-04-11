@@ -16,7 +16,7 @@ class App extends React.Component {
     }
 
     async CreateDataForTimeline() {
-        axios.get('/getworkerstasks').then(res => {
+        axios.get('http://c3.team21.ru:8083/getworkerstasks').then(res => {
             let data = [
                 [
                     { type: 'string', id: 'Position' },

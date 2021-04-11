@@ -34,7 +34,7 @@ export default class AddTask extends React.Component {
 
     async RefreshData() {
         let data
-        await axios.get('/loadworkerswithcost')
+        await axios.get('http://c3.team21.ru:8083/loadworkerswithcost')
             .then((res) => {
                 data = res.data
             })
@@ -47,7 +47,7 @@ export default class AddTask extends React.Component {
             workers: workers
         })
 
-        await axios.get('/getspecialties').then(res=>{
+        await axios.get('http://c3.team21.ru:8083/getspecialties').then(res=>{
             this.setState({
                 specialties: ['Не выбран',...res.data]
             })
@@ -64,7 +64,7 @@ export default class AddTask extends React.Component {
         e.preventDefault()
         let StartDate = new Date()
         let EndDate = await moment(new Date()).add(this.state.time,'days')
-        await axios.post("/addworkertask",{
+        await axios.post("http://c3.team21.ru:8083/addworkertask",{
             name: this.state.currentWorker,
             task: this.state.task,
             time: this.state.time,

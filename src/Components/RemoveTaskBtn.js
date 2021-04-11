@@ -11,7 +11,7 @@ export default class RemoveTaskBtn extends React.Component{
 
 
     RemoveTask(task,isExists){
-        axios.post('/removetask',task)
+        axios.post('http://c3.team21.ru:8083/removetask',task)
             .then((res) => {
                 console.log("Удалено");
             })

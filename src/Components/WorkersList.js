@@ -22,7 +22,7 @@ class WorkersList extends Component {
         ArrState.forEach( (ArrWorker)=>{
             if(worker.name === ArrWorker.name) ArrWorker.isExists = false
         })
-        axios.post('/removeworker',worker)
+        axios.post('http://c3.team21.ru:8083/removeworker',worker)
             .then( (res)=> {
                 this.setState({
                     ...ArrState
@@ -31,7 +31,7 @@ class WorkersList extends Component {
             .catch( (err)=> console.log(err))
     }
     async ReloadInfo(){
-        await axios.get('/loadworkerswithcost').then((res) => {
+        await axios.get('http://c3.team21.ru:8083/loadworkerswithcost').then((res) => {
             this.setState({
                 data: res.data
             })
