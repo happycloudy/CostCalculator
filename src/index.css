@@ -13,12 +13,12 @@ code {
   text-align: center;
 }
 
-.AddWorkerWrap{
-  height: 30vh !important;
+.AddWorkerWrap {
+  min-height: 30vh !important;
 }
 .AddTaskWrap , .AddWorkerWrap {
   margin-top: 10vh;
-  height: 55vh;
+  min-height: 55vh;
   background-color: #EEEEEE;
   border-radius: 20px;
 }
