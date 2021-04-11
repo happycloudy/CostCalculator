@@ -1,4 +1,4 @@
-import {Col,Row} from 'react-bootstrap';
+import {Button, Col, Row} from 'react-bootstrap';
 import React from 'react';
 import axios from 'axios';
 import MoreInfo from './MoreInfo'
@@ -48,9 +48,6 @@ export default class Cost extends React.Component{
             }) 
         })
         .catch( (err)=> console.log(err))
-        axios.get('/getworkerstasks').then(res=>{
-            console.log(res.data)
-        })
     }
 
 
@@ -75,6 +72,13 @@ export default class Cost extends React.Component{
                 <h2>
                     Затраты <br /> по сотрудникам
                 </h2>
+                <Row>
+                    <Col>
+                        <Button className='mt-3' onClick={this.ReloadInfo}>
+                            Обновить
+                        </Button>
+                    </Col>
+                </Row>
                 {Object.values(this.state).map( (worker)=>
                     worker.isExists?       
                     <div key={worker.name}>

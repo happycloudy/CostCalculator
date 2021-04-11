@@ -111,9 +111,7 @@ export default class AddTask extends React.Component {
             isOverWorkRequest: !this.state.isSpecialtyRequest
         })
     }
-    setIsRightField(isRightField){
-        this.setState({isAlphabetFieldRight: isRightField})
-    }
+
 
     render() {
         return (
