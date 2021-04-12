@@ -4,6 +4,15 @@ const csv = require('csv-parser')
 const router = express.Router();
 const getMinTimeWorker = require('../external/getMinTimeWorker')
 
+router.get('*',(req,res,next)=>{
+    console.log(`\n${(new Date()).toLocaleString()}:`)
+    next()
+})
+router.post('*',(req,res,next)=>{
+    console.log(`\n${(new Date()).toLocaleString()}:`)
+    next()
+})
+
 router.post('/addworker', async (req, res) => {
     let worker = {
         name: req.body.WorkerName,
@@ -11,6 +20,7 @@ router.post('/addworker', async (req, res) => {
         specialty: req.body.WorkerSpecialty
     }
     fs.appendFile('./data/Workers.csv', `${worker.name},${worker.payment},${worker.specialty}\n`, err => err ? console.log(err) : null)
+    console.log(`Сотрудник ${worker.name}`)
     return res.redirect('/')
 });
 
@@ -173,9 +183,20 @@ router.post('/addworkertask', (req, res) => {
             .pipe(csv())
             .on('data', (data) => tasks.push(data))
             .on('end', () => {
-                let workerWthMinTime = getMinTimeWorker(tasks, undefined)
-                fs.appendFile('./data/Tasks.csv', `${workerWthMinTime.name},${incomingTask.task},${incomingTask.StartTime},${incomingTask.EndTime},${incomingTask.time},${incomingTask.isOWRequest}\n`, err => err ? console.log(err) : null)
-                console.log(`Задание для ${workerWthMinTime.name} добавлено`)
+                let workers = []
+                fs.createReadStream('./data/Workers.csv')
+                    .pipe(csv())
+                    .on('data', (data) => workers.push(data))
+                    .on('end',  () => {
+                        if(workers.length === 0) {
+                            res.send('Нету работников')
+                            return
+                        }
+                        let workerWthMinTime = getMinTimeWorker(tasks, undefined, workers)
+                        fs.appendFile('./data/Tasks.csv', `${workerWthMinTime.name},${incomingTask.task},${incomingTask.StartTime},${incomingTask.EndTime},${incomingTask.time},${incomingTask.isOWRequest}\n`, err => err ? console.log(err) : null)
+                        console.log(`Задание для ${workerWthMinTime.name} добавлено`)
+                        return res.sendStatus(200)
+                    })
             })
     }
 
@@ -190,10 +211,16 @@ router.post('/addworkertask', (req, res) => {
                     fs.createReadStream('./data/Workers.csv')
                         .pipe(csv())
                         .on('data', (data) => workers.push(data))
-                        .on('end', () => {
+                        .on('end',  () => {
+                            if(workers.length === 0) {
+                                res.send('Нету работников')
+                                return
+                            }
                             let workerWthMinTime = getMinTimeWorker(tasks, incomingTask.isChooseBtwSp, workers)
-                            fs.appendFile('./data/Tasks.csv', `${incomingTask.name},${incomingTask.task},${incomingTask.StartTime},${incomingTask.EndTime},${incomingTask.time},${incomingTask.isOWRequest}\n`, err => err ? console.log(err) : null)
+                            console.log(workerWthMinTime)
+                            fs.appendFile('./data/Tasks.csv', `${workerWthMinTime.name},${incomingTask.task},${incomingTask.StartTime},${incomingTask.EndTime},${incomingTask.time},${incomingTask.isOWRequest}\n`, err => err ? console.log(err) : null)
                             console.log(`Задание для ${workerWthMinTime.name} добавлено`)
+                            return res.sendStatus(200)
                         })
                 })
         }
@@ -203,8 +230,9 @@ router.post('/addworkertask', (req, res) => {
         console.log("Ничего не поменялось")
         fs.appendFile('./data/Tasks.csv', `${incomingTask.name},${incomingTask.task},${incomingTask.StartTime},${incomingTask.EndTime},${incomingTask.time},${incomingTask.isOWRequest}\n`, err => err ? console.log(err) : null)
         console.log(`Задание для ${incomingTask.name} добавлено`)
+        return res.sendStatus(200)
     }
-    return res.sendStatus(200)
+
 })
 
 router.get('/getspecialties', (req, res) => {
@@ -214,6 +242,10 @@ router.get('/getspecialties', (req, res) => {
         .pipe(csv())
         .on('data', (data) => workers.push(data))
         .on('end', async () => {
+            if(workers.length === 0) {
+                await res.send(specialties)
+                return
+            }
             specialties.push(workers[0].specialty)
             await workers.forEach(worker => {
                 let isExist = specialties.find(specialty => specialty === worker.specialty)

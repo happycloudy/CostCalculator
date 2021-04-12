@@ -13,25 +13,36 @@ module.exports = function getInfo(tasks, specialty, workers) {
                 sumTime: sumTime
             })
         }
-    })
-
-    if (specialty !== undefined || specialty === 'Не выбран') {
-        let workerWthMinTime = sortedArrByTasks[0]
-        let minTime = sortedArrByTasks[0].sumTime || 10 ^ 10
-
-        sortedArrByTasks.forEach((workerInArr) => {
-            let currentWorker = workers.find(worker => worker.name === workerInArr.name)
-            workerInArr.specialty = currentWorker.specialty
+    }) // люди с заданиями
+    workers.forEach(worker=>{
+        let workerWithTasks = sortedArrByTasks.find(workerWthTasks=> worker.name === workerWthTasks.name)
+        if(workerWithTasks === undefined) sortedArrByTasks.push({
+            name: worker.name,
+            sumTime: 0
         })
+    }) // включая людей без заданий
 
-        sortedArrByTasks.forEach(worker => {
-            if (minTime > worker.sumTime && worker.specialty === specialty) {
-                minTime = worker.sumTime
-                workerWthMinTime = worker
-            }
-        })
-        return workerWthMinTime
+
+    if (specialty !== undefined ) {
+        if(specialty !== 'Не выбран'){
+            let workerWthMinTime = sortedArrByTasks[0]
+            let minTime = sortedArrByTasks[0].sumTime || 10 ^ 10
+
+            sortedArrByTasks.forEach((workerInArr) => {
+                let currentWorker = workers.find(worker => worker.name === workerInArr.name)
+                workerInArr.specialty = currentWorker.specialty
+            })
+
+            sortedArrByTasks.forEach(worker => {
+                if (minTime > worker.sumTime && worker.specialty === specialty) {
+                    minTime = worker.sumTime
+                    workerWthMinTime = worker
+                }
+            })
+            return workerWthMinTime
+        }
     }
+
     let minTime = sortedArrByTasks[0].sumTime || 10 ^ 10
     let workerWthMinTime = sortedArrByTasks[0]
     sortedArrByTasks.forEach(worker => {
@@ -42,4 +53,3 @@ module.exports = function getInfo(tasks, specialty, workers) {
     })
     return workerWthMinTime
 }
-// В разработке

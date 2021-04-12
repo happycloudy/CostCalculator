@@ -21,7 +21,8 @@ export default class AddTask extends React.Component {
             isAlphabetFieldRight: false,
             isOverWorkRequest: false,
             isSpecialtyRequest: false,
-            isSent: false
+            isSent: false,
+            isErr: false
         }
         this.RefreshData = this.RefreshData.bind(this)
         this.setIsSubmitted = this.setIsSubmitted.bind(this)
@@ -32,6 +33,11 @@ export default class AddTask extends React.Component {
                 <Popover.Title as="h3">Задание отправлено</Popover.Title>
             </Popover>
         );
+        this.errorpop = (
+            <Popover id="popover-basic">
+                <Popover.Title as="h3">Ошибка, проверьте введенные данные</Popover.Title>
+            </Popover>
+        )
     }
 
     componentDidMount() {
@@ -87,6 +93,16 @@ export default class AddTask extends React.Component {
                 setTimeout(()=>{
                     this.setState({
                         isSent: false
+                    })
+                },3000)
+            }
+            if(res.data === 'Нету работников') {
+                console.log(res.data)
+                this.setState({isErr: true})
+
+                setTimeout(()=>{
+                    this.setState({
+                        isErr: false
                     })
                 },3000)
             }
@@ -187,9 +203,11 @@ export default class AddTask extends React.Component {
                     </Row>
                     {this.state.isSubmitted?
                         <OverlayTrigger trigger="click"  placement="right" show={this.state.isSent} overlay={this.popover}>
-                            <Button variant="primary" type="submit" style={{marginTop: "30px"}} >
-                                Добавить задание
-                            </Button>
+                            <OverlayTrigger trigger="click"  placement="left" show={this.state.isErr} overlay={this.errorpop}>
+                                <Button variant="primary" type="submit" style={{marginTop: "30px"}} >
+                                    Добавить задание
+                                </Button>
+                            </OverlayTrigger>
                         </OverlayTrigger>
                     :
                     null}
