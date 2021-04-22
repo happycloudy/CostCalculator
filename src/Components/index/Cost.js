@@ -1,7 +1,7 @@
 import {Button, Col, Row} from 'react-bootstrap';
 import React from 'react';
 import axios from 'axios';
-import MoreInfo from './MoreInfo'
+import MoreInfo from '../sub/MoreInfo'
 
 
 export default class Cost extends React.Component{
@@ -32,7 +32,7 @@ export default class Cost extends React.Component{
     }
 
     ReloadInfo(){
-        let data 
+        let data
         axios.get('/loadworkerswithcost')
         .then( (res)=> {
             data= res.data
@@ -45,7 +45,7 @@ export default class Cost extends React.Component{
             this.setState({
                     ...this.state,
                     ...data
-            }) 
+            })
         })
         .catch( (err)=> console.log(err))
     }

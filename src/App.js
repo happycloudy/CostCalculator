@@ -8,6 +8,8 @@ import Index from './pages/Index'
 import Workers from './pages/Workers'
 import Timeline from './pages/Timeline'
 import Navigation from './Components/Navigation'
+import Taskspage from "./pages/Taskspage";
+import Specialties from "./pages/Specialties";
 
 class App extends React.Component {
     render() {
@@ -25,6 +27,12 @@ class App extends React.Component {
                             </Route>
                             <Route path="/timeline">
                                 <Timeline/>
+                            </Route>
+                            <Route path='/taskspage'>
+                                <Taskspage/>
+                            </Route>
+                            <Route path='/specialties'>
+                                <Specialties/>
                             </Route>
                         </Switch>
                     </div>

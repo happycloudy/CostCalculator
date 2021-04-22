@@ -1,13 +1,13 @@
 import {Container} from 'react-bootstrap';
 import React from 'react'
-import WorkersList from "../Components/workers/WorkersList";
+import Tasks from "../Components/tasks/Tasks";
 
 class App extends React.Component{
     render(){
         return (
             <div className="App">
-                <Container style={{marginTop: '3vh'}}>
-                    <WorkersList/>
+                <Container>
+                    <Tasks/>
                 </Container>
             </div>
         );

@@ -3,32 +3,36 @@ import {Navbar,Nav} from 'react-bootstrap'
 import {Link} from 'react-router-dom'
 
 export default function Navigation(){
-    let color = {
-        color: 'gray'
-    }
     return(
-        <Navbar bg="light" expand="lg">
+        <Navbar bg="dark" variant='dark' expand="lg">
             <Navbar.Brand href="#home">Cost Calculator</Navbar.Brand>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
-            <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">
-                    <Nav.Link>
-                        <Link style={color} to='/'>
+                    <>
+                        <Link className='nav-link' to='/'>
                             Главная
                         </Link>
-                    </Nav.Link>
-                    <Nav.Link>
-                        <Link style={color} to='/workers'>
+                    </>
+                    <>
+                        <Link className='nav-link' to='/workers'>
                             Сотрудники
                         </Link>
-                    </Nav.Link>
-                    <Nav.Link >
-                        <Link style={color} to='/timeline'>
+                    </>
+                    <>
+                        <Link className='nav-link' to='/timeline'>
                             Таймлайн
                         </Link>
-                    </Nav.Link>
+                    </>
+                    <>
+                        <Link className='nav-link' to='/taskspage'>
+                            Задания
+                        </Link>
+                    </>
+                    <>
+                        <Link className='nav-link' to='/specialties'>
+                            Специальности
+                        </Link>
+                    </>
                 </Nav>
-            </Navbar.Collapse>
         </Navbar>
     )
 }

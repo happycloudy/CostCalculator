@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import axios from "axios";
-import {ListGroup,Row,Col} from "react-bootstrap";
-import MoreInfo from "./MoreInfo";
+import {ListGroup, Row, Col, Button} from "react-bootstrap";
+import MoreInfo from "../sub/MoreInfo";
 
 
 class WorkersList extends Component {
@@ -46,13 +46,13 @@ class WorkersList extends Component {
                             <ListGroup.Item as="li" key={ind}>
                                 <Row>
                                     <Col>
-                                        {worker.name}
+                                        {worker.name}, {worker.specialty}
                                     </Col>
                                     <Col>
                                         <MoreInfo worker={worker} ReloadInfo={this.ReloadInfo}/>
                                     </Col>
                                     <Col>
-                                        <button className="btn btn-danger" onClick={()=> this.RemoveWorker(worker)}>Удалить сотрудника</button>
+                                        <Button className="btn btn-danger" onClick={()=> this.RemoveWorker(worker)}>Удалить сотрудника</Button>
                                     </Col>
                                 </Row>
                             </ListGroup.Item>

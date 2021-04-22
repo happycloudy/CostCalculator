@@ -26,7 +26,7 @@ export default class RemoveTaskBtn extends React.Component{
             <div>
                 {
                     isExists?
-                    <Button onClick={() => this.RemoveTask(this.props.task, this.state.isExists)} className="btn" size="sm" style={{ float: 'right' }}>
+                    <Button variant='danger' onClick={() => this.RemoveTask(this.props.task, this.state.isExists)} className="btn" size="sm" style={{ float: 'right' }}>
                         Удалить
                     </Button>:
                     <Button className="btn" size="sm" style={{ float: 'right' }} disabled>

@@ -3,7 +3,7 @@ import React from 'react'
 import axios from 'axios'
 import moment from 'moment'
 
-import NotNumberToolTipField from './NotNumberToolTipField'
+import NotNumberToolTipField from '../sub/NotNumberToolTipField'
 
 
 export default class AddTask extends React.Component {
@@ -124,7 +124,7 @@ export default class AddTask extends React.Component {
             isSpecialtyRequest: !this.state.isSpecialtyRequest
         })
         if (field === 'isOverWorkRequest') this.setState({
-            isOverWorkRequest: !this.state.isSpecialtyRequest
+            isOverWorkRequest: !this.state.isOverWorkRequest
         })
     }
 
