@@ -2,6 +2,7 @@ import React from 'react';
 import {Button, ListGroup} from "react-bootstrap";
 import axios from "axios";
 import TaskLi from "./TaskLi";
+import AddTask from "../tasks/AddTask";
 
 class Tasks extends React.Component {
     constructor(props) {
@@ -45,6 +46,7 @@ class Tasks extends React.Component {
                         })
                     }
                 </ListGroup>
+                <AddTask/>
             </>
         )
     }

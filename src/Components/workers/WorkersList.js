@@ -17,6 +17,7 @@ class WorkersList extends Component {
     async componentDidMount() {
         await this.ReloadInfo()
     }
+
     RemoveWorker(worker){
         let ArrState = Object.values(this.state)
         ArrState.forEach( (ArrWorker)=>{

@@ -16,7 +16,6 @@ router.post('/addworkertask', (req, res) => {
         isChooseBtwSp: req.body.isChooseBtwSp
     }
     let tasks = []
-
     if (incomingTask.isSpRequest) {
         console.log('Минимум среди всех')
         fs.createReadStream('./data/Tasks.csv')
@@ -66,7 +65,7 @@ router.post('/addworkertask', (req, res) => {
         }
     }
 
-    if (incomingTask.name !== undefined && !incomingTask.isSpRequest && (incomingTask.isChooseBtwSp === 'Не выбран' || incomingTask.isChooseBtwSp === undefined) ) {
+    if (!incomingTask.isSpRequest && (incomingTask.isChooseBtwSp === 'Не выбран' || incomingTask.isChooseBtwSp === undefined) ) {
         console.log("Ничего не поменялось")
         fs.appendFile('./data/Tasks.csv', `${incomingTask.name},${incomingTask.task},${incomingTask.StartTime},${incomingTask.EndTime},${incomingTask.time},${incomingTask.isOWRequest}\n`, err => err ? console.log(err) : null)
         console.log(`Задание для ${incomingTask.name} добавлено`)

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {ListGroup} from "react-bootstrap";
+import {Button} from "react-bootstrap";
 import ModalTask from "./ModalTask";
 
 const TaskLi = (props) => {
@@ -16,22 +16,27 @@ const TaskLi = (props) => {
                 onHide={() => setIsShow(false)}
             />
             {
-                isActive?
-                    <ListGroup.Item variant="secondary"
-                                    onMouseEnter={HandleEnterMouse}
-                                    onMouseLeave={HandleLeaveMouse}
-                                    active
-                                    onClick={()=> setIsShow(true)}
+                isActive ?
+                    <Button variant="primary"
+                            className='mt-1'
+                            onMouseEnter={HandleEnterMouse}
+                            onMouseLeave={HandleLeaveMouse}
+                            active
+                            onClick={() => setIsShow(true)}
                     >
-                        {props.task.task}, Выполняет: {props.task.worker}
-                    </ListGroup.Item>
+                        {props.task.task}, Выполняет: {props.task.name !== undefined? props.task.name: 'Свободно'}
+                    </Button>
                     :
-                    <ListGroup.Item variant="secondary" onMouseEnter={HandleEnterMouse} onMouseLeave={HandleLeaveMouse}>
-                        {props.task.task}, Выполняет: {props.task.worker}
-                    </ListGroup.Item>
+                    <Button variant="secondary"
+                            onMouseEnter={HandleEnterMouse}
+                            onMouseLeave={HandleLeaveMouse}
+                            className='mt-1'
+                    >
+                        {props.task.task}, Выполняет: {props.task.name !== undefined? props.task.name: 'Свободно'}
+                    </Button>
             }
         </>
     );
-};
+}
 
 export default TaskLi;

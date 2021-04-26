@@ -11,7 +11,7 @@ export default function ModalTask(props) {
         >
             <Modal.Header closeButton>
                 <Modal.Title id="contained-modal-title-vcenter">
-                    Задание работника : {props.task.name}
+                    Задание работника : {props.task.name !== 'undefined'? props.task.name: 'Свободно'}
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>

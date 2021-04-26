@@ -38,7 +38,7 @@ class SpecialtiesList extends React.Component {
                     {
                         this.state.specialties.map(spec => {
                             return (
-                                <ListGroup.Item variant='dark' className='mt-3' style={{borderRadius: '10px'}}>
+                                <ListGroup.Item variant='dark' key={spec} className='mt-3' style={{borderRadius: '10px'}}>
                                     <Row>
                                         <Col>
                                             <h4>

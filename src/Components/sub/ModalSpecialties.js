@@ -11,12 +11,24 @@ class ModalSpecialties extends React.Component {
             worker: this.props.worker,
             isActive: true
         }
+        this.reloadInfo = this.reloadInfo.bind(this);
+        this.addSpeciaty = this.addSpeciaty.bind(this);
     }
 
     async componentDidMount() {
+        this.reloadInfo()
+    }
+
+    reloadInfo() {
         axios.get('/getspecialties').then(res => {
+            let workersSpecs = this.state.worker.specialty.split('; ')
+            let specs = []
+
+            res.data.forEach(spec => {
+                if(!workersSpecs.find(workerSpec => workerSpec === spec)) specs.push(spec)
+            })
             this.setState({
-                specialties: res.data
+                specialties: specs
             })
         })
     }
@@ -26,6 +38,7 @@ class ModalSpecialties extends React.Component {
             worker: this.state.worker.name,
             specialty: this.state.currentSpecialty
         })
+        this.reloadInfo()
     }
 
     render() {
@@ -34,6 +47,7 @@ class ModalSpecialties extends React.Component {
             <Modal show={this.props.showSpec} onHide={() => {
                 this.props.setShowSpec(false)
                 this.props.setShow(true)
+                this.props.reloadInfo()
             }} centered>
                 <Modal.Header>
                     <h4>
@@ -43,32 +57,17 @@ class ModalSpecialties extends React.Component {
                 <Modal.Body className='text-center'>
                     <ListGroup>
                         {
-                            this.state.specialties.map(spec => {
-                                    let specExist = workersSpecialties.find(workerSpec => workerSpec === spec)
-                                    if (specExist === undefined)
-                                        return (
-                                            this.state.isActive?
-                                                <Button className='mt-3'
-                                                        onClick={async () => {
-                                                            await this.setState({currentSpecialty: spec, isActive: false})
-                                                            this.addSpeciaty()
-                                                        }}
-                                                        key={spec}
-                                                >
-                                                    {spec}
-                                                </Button>:
-                                                <Button className='mt-3'
-                                                        onClick={async () => {
-                                                            await this.setState({currentSpecialty: spec, isActive: false})
-                                                            this.addSpeciaty()
-                                                        }}
-                                                        key={spec}
-                                                        disabled
-                                                >
-                                                    {spec}
-                                                </Button>
-                                        )
-                                }
+                            this.state.specialties.map(spec =>
+                                <Button className='mt-3'
+                                        onClick={async () => {
+                                            await this.setState({currentSpecialty: spec})
+                                            await this.addSpeciaty()
+                                            await this.reloadInfo()
+                                        }}
+                                        key={spec}
+                                >
+                                    {spec}
+                                </Button>
                             )
                         }
                     </ListGroup>

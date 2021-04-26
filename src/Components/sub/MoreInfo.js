@@ -4,12 +4,14 @@ import RemoveTaskBtn from './RemoveTaskBtn'
 import moment from "moment";
 import axios from "axios";
 import ModalSpecialties from "./ModalSpecialties";
+import ChooseTaskModal from "../workers/ChooseTaskModal";
 
 export default function MoreInfo(props) {
     const [task, setTask] = useState('')
-    const [showSpec,setShowSpec] = useState(false)
-    const [days, setDays] = useState(0)
+    const [showSpec, setShowSpec] = useState(false)
+    const [showTasks, setShowTasks] = useState(false)
     const [show, setShow] = useState(false);
+    const [days, setDays] = useState(0)
     const [isOWRequest, setIsOWRequest] = useState(false)
     const handleClose = () => {
         props.ReloadInfo()
@@ -39,7 +41,7 @@ export default function MoreInfo(props) {
     }
     return (
         <>
-            {props.worker.tasks.length !== 0 ?
+            {props.worker.tasks.length ?
                 <Button variant="primary" onClick={handleShow}>
                     Подробнее...
                 </Button> :
@@ -47,7 +49,18 @@ export default function MoreInfo(props) {
                     Нету заданий
                 </Button>
             }
-            <ModalSpecialties showSpec={showSpec} setShow={setShow} worker={props.worker} setShowSpec={setShowSpec}/>
+            <ModalSpecialties reloadInfo={props.ReloadInfo}
+                              showSpec={showSpec}
+                              setShow={setShow}
+                              worker={props.worker}
+                              setShowSpec={setShowSpec}
+            />
+            <ChooseTaskModal showTasks={showTasks}
+                             worker={props.worker}
+                             reloadInfo={props.ReloadInfo}
+                             setShow={setShow}
+                             setShowTasks={setShowTasks}
+            />
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Row>
@@ -60,7 +73,7 @@ export default function MoreInfo(props) {
                     </Row>
                     <Row>
                         <Col>
-                            <Button onClick={()=> {
+                            <Button onClick={() => {
                                 setShowSpec(true)
                                 setShow(false)
                             }}>
@@ -70,7 +83,13 @@ export default function MoreInfo(props) {
                     </Row>
                 </Modal.Header>
                 <Modal.Body className='text-center'>
-                    <ListGroup>
+                    <Button onClick={() => {
+                        setShowTasks(true)
+                        setShow(false)
+                    }}>
+                        Добавить задание
+                    </Button>
+                    <ListGroup className='mt-4'>
                         {props.worker.tasks.map((task) => {
                             let EndDate = moment(task.EndTime, 'YYYY-MM-DD')
                             EndDate = `${EndDate.date()}.${EndDate.month()}.${EndDate.year()}`
@@ -84,7 +103,7 @@ export default function MoreInfo(props) {
                         })}
                         <ListGroup.Item className='mt-4'>
                             <h5>
-                               Добавить задание
+                                Добавить задание
                             </h5>
                             <p>
                                 Задание:
@@ -97,7 +116,7 @@ export default function MoreInfo(props) {
                             <p className='mt-2'>
                                 Добавить переработку?
                             </p>
-                            <input type='checkbox' onClick={()=> setIsOWRequest(!isOWRequest)}/>
+                            <input type='checkbox' onClick={() => setIsOWRequest(!isOWRequest)}/>
                             <br/>
                             <Button className='mt-3' onClick={sendTask}>
                                 Добавить
