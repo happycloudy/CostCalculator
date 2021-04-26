@@ -14,6 +14,7 @@ const TaskLi = (props) => {
                 task={props.task}
                 reload={props.reload}
                 onHide={() => setIsShow(false)}
+                setIsShow={setIsShow}
             />
             {
                 isActive ?
@@ -21,7 +22,6 @@ const TaskLi = (props) => {
                             className='mt-1'
                             onMouseEnter={HandleEnterMouse}
                             onMouseLeave={HandleLeaveMouse}
-                            active
                             onClick={() => setIsShow(true)}
                     >
                         {props.task.task}, Выполняет: {props.task.name !== undefined? props.task.name: 'Свободно'}
@@ -31,6 +31,7 @@ const TaskLi = (props) => {
                             onMouseEnter={HandleEnterMouse}
                             onMouseLeave={HandleLeaveMouse}
                             className='mt-1'
+                            onClick={() => setIsShow(true)}
                     >
                         {props.task.task}, Выполняет: {props.task.name !== undefined? props.task.name: 'Свободно'}
                     </Button>

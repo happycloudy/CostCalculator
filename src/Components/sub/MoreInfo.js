@@ -45,7 +45,7 @@ export default function MoreInfo(props) {
                 <Button variant="primary" onClick={handleShow}>
                     Подробнее...
                 </Button> :
-                <Button variant="primary" onClick={handleShow} disabled>
+                <Button variant="primary" disabled>
                     Нету заданий
                 </Button>
             }

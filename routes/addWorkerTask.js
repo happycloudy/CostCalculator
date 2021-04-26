@@ -17,51 +17,11 @@ router.post('/addworkertask', (req, res) => {
     }
     let tasks = []
     if (incomingTask.isSpRequest) {
-        console.log('Минимум среди всех')
-        fs.createReadStream('./data/Tasks.csv')
-            .pipe(csv())
-            .on('data', (data) => tasks.push(data))
-            .on('end', () => {
-                let workers = []
-                fs.createReadStream('./data/Workers.csv')
-                    .pipe(csv())
-                    .on('data', (data) => workers.push(data))
-                    .on('end',  () => {
-                        if(workers.length === 0) {
-                            res.send('Нету работников')
-                            return
-                        }
-                        let workerWthMinTime = getMinTimeWorker(tasks, undefined, workers)
-                        fs.appendFile('./data/Tasks.csv', `${workerWthMinTime.name},${incomingTask.task},${incomingTask.StartTime},${incomingTask.EndTime},${incomingTask.time},${incomingTask.isOWRequest}\n`, err => err ? console.log(err) : null)
-                        console.log(`Задание для ${workerWthMinTime.name} добавлено`)
-                        return res.sendStatus(200)
-                    })
-            })
     }
 
     if (!incomingTask.isSpRequest) {
         if (incomingTask.isChooseBtwSp && incomingTask.isChooseBtwSp !== 'Не выбран') {
-            console.log('Выбрана специальность, минимум по специальности')
-            fs.createReadStream('./data/Tasks.csv')
-                .pipe(csv())
-                .on('data', (data) => tasks.push(data))
-                .on('end', () => {
-                    let workers = []
-                    fs.createReadStream('./data/Workers.csv')
-                        .pipe(csv())
-                        .on('data', (data) => workers.push(data))
-                        .on('end',  () => {
-                            if(workers.length === 0) {
-                                res.send('Нету работников')
-                                return
-                            }
-                            let workerWthMinTime = getMinTimeWorker(tasks, incomingTask.isChooseBtwSp, workers)
-                            console.log(workerWthMinTime)
-                            fs.appendFile('./data/Tasks.csv', `${workerWthMinTime.name},${incomingTask.task},${incomingTask.StartTime},${incomingTask.EndTime},${incomingTask.time},${incomingTask.isOWRequest}\n`, err => err ? console.log(err) : null)
-                            console.log(`Задание для ${workerWthMinTime.name} добавлено`)
-                            return res.sendStatus(200)
-                        })
-                })
+
         }
     }
 

@@ -13,6 +13,8 @@ const addWorkerSpecialty = require('./routes/addWorkerSpecialty')
 const addSpecialty = require('./routes/addSpecialty')
 const removeSpecialty = require('./routes/removeSpecialty')
 const ChooseTaskWorker = require('./routes/ChooseTaskWorker')
+const sortTaskWithoutSpec = require('./routes/sortTaskWthoutSpec')
+const sortTaskWithSpec = require('./routes/sortTaskWthSpec')
 
 const app = express();
 app.use(express.static(path.join(__dirname, 'build')));
@@ -37,6 +39,9 @@ app.use(addWorkerSpecialty)
 app.use(addSpecialty)
 app.use(removeSpecialty)
 app.use(ChooseTaskWorker)
+app.use(sortTaskWithoutSpec)
+app.use(sortTaskWithSpec)
+
 
 
 app.get('/', (req, res) => {
