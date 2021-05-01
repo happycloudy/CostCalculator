@@ -1,8 +1,9 @@
 import React from 'react';
-import {Button, ListGroup} from "react-bootstrap";
+import {Button, Col, Container, ListGroup, Row} from "react-bootstrap";
 import axios from "axios";
 import TaskLi from "./TaskLi";
 import AddTask from "../tasks/AddTask";
+import ReloadButton from "../sub/ReloadButton";
 
 class Tasks extends React.Component {
     constructor(props) {
@@ -11,14 +12,18 @@ class Tasks extends React.Component {
             tasks: []
         }
         this.ReloadData = this.ReloadData.bind(this);
+        this.style = {
+            background: 'white',
+            borderRadius: '10px'
+        }
     }
 
-    componentDidMount() {
-        this.ReloadData()
+    async componentDidMount() {
+        await this.ReloadData()
     }
 
-    ReloadData(){
-        axios.get('/getworkerstasks').then(res => {
+    async ReloadData(){
+        await axios.get('/getworkerstasks').then(res => {
             this.setState(state=>{
                 let tasks = []
                 res.data.forEach(worker=>{
@@ -33,21 +38,34 @@ class Tasks extends React.Component {
             })
         })
     }
+
     render() {
         return (
-            <>
-                <Button className='mt-3' onClick={this.ReloadData}>Обновить</Button>
-                <ListGroup className='mt-5'>
-                    {
-                        this.state.tasks.map((task,ind)=>{
-                            return (
-                                <TaskLi reload={this.ReloadData} task={task} key={ind}/>
-                            )
-                        })
-                    }
-                </ListGroup>
-                <AddTask/>
-            </>
+            <div style={this.style}>
+                <Container>
+                    <Row className='mt-5'></Row>
+                    <Row>
+                        <Col>
+                            <h3>
+                                Задания
+                            </h3>
+                        </Col>
+                    </Row>
+                    <ReloadButton className='mt-3' reload={this.ReloadData}/>
+                    <ListGroup className='mt-5'>
+                        {
+                            this.state.tasks.map((task,ind)=>{
+                                return (
+                                    <TaskLi reload={this.ReloadData} task={task} key={ind}/>
+                                )
+                            })
+                        }
+                    </ListGroup>
+                    <hr className='mt-5'/>
+                    <AddTask/>
+                    <Row className='mt-5'></Row>
+                </Container>
+            </div>
         )
     }
 }

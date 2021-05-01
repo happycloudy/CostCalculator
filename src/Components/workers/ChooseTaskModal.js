@@ -37,7 +37,7 @@ class ChooseTaskModal extends React.Component {
             <Modal show={this.props.showTasks} onHide={async () => {
                 this.props.setShowTasks(false)
                 this.props.setShow(true)
-                this.props.reloadInfo()
+                await this.props.reloadInfo()
                 await this.getTasks()
             }} centered>
                 <Modal.Header>

@@ -15,8 +15,8 @@ router.post('/addworkerspecialty', async (req, res) => {
         .on('data', (data) => workers.push(data))
         .on('end', () => {
             let worker = workers.find(worker=> worker.name === newSpec.name)
-            worker.specialty = `${worker.specialty}; ${newSpec.specialty}`
-
+            worker.specialty =  worker.specialty !== ''? `${worker.specialty}; ${newSpec.specialty}` : `${newSpec.specialty}`
+            console.log(worker.specialty)
             fs.writeFileSync('./data/Workers.csv', 'name,payment,specialty\n')
             workers.forEach(workerArr=>{
                 if(workerArr.name === worker.name){

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Button} from "react-bootstrap";
+import {Button, ListGroup} from "react-bootstrap";
 import ModalTask from "./ModalTask";
 
 const TaskLi = (props) => {
@@ -18,23 +18,37 @@ const TaskLi = (props) => {
             />
             {
                 isActive ?
-                    <Button variant="primary"
-                            className='mt-1'
-                            onMouseEnter={HandleEnterMouse}
-                            onMouseLeave={HandleLeaveMouse}
-                            onClick={() => setIsShow(true)}
+                    <ListGroup.Item variant="warning"
+                                    className='mt-3'
+                                    onMouseEnter={HandleEnterMouse}
+                                    onMouseLeave={HandleLeaveMouse}
+                                    onClick={() => setIsShow(true)}
                     >
-                        {props.task.task}, Выполняет: {props.task.name !== undefined? props.task.name: 'Свободно'}
-                    </Button>
+                        <h5>{props.task.task},</h5>
+                        Выполняет:
+                        {
+                            props.task.name === 'Свободно' ?
+                                <h5 className='text-primary'>{props.task.name}</h5>
+                                :
+                                <h5>{props.task.name}</h5>
+                        }
+                    </ListGroup.Item>
                     :
-                    <Button variant="secondary"
-                            onMouseEnter={HandleEnterMouse}
-                            onMouseLeave={HandleLeaveMouse}
-                            className='mt-1'
-                            onClick={() => setIsShow(true)}
+                    <ListGroup.Item variant="secondary"
+                                    onMouseEnter={HandleEnterMouse}
+                                    onMouseLeave={HandleLeaveMouse}
+                                    className='mt-3'
+                                    onClick={() => setIsShow(true)}
                     >
-                        {props.task.task}, Выполняет: {props.task.name !== undefined? props.task.name: 'Свободно'}
-                    </Button>
+                        <h5>{props.task.task},</h5>
+                        Выполняет:
+                        {
+                            props.task.name === 'Свободно' ?
+                                <h5 className='text-primary'>{props.task.name}</h5>
+                                :
+                                <h5>{props.task.name}</h5>
+                        }
+                    </ListGroup.Item>
             }
         </>
     );

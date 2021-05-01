@@ -49,27 +49,32 @@ export default class AddWorker extends Component {
 
     async sendForm(e) {
         e.preventDefault()
+        if(this.state.currentSpecialty === undefined || this.state.currentSpecialty === 'Не выбран'){
+            await this.setState({
+                currentSpecialty: ''
+            })
+        }
         await axios.post("/addworker", {
             WorkerName: this.state.name,
             WorkerCost: this.state.cost,
             WorkerSpecialty: this.state.currentSpecialty
-        }).then(res=>{
-            // релоад
+        }).then(async _=>{
+            await this.props.reloadInfo()
         })
     }
 
     render() {
         return (
             <div className="AddWorkerWrap">
-                <h2>Добавить сотрудника</h2>
+                <h3>Добавить сотрудника</h3>
                 <form className="AddWorker"
                       action="/addworker"
                       method="POST">
                     <Row>
                         <Col>
-                            <h3>
+                            <h4>
                                 Сотрудник
-                            </h3>
+                            </h4>
                             <AlphabetInput setIsRightField={this.setIsRightWorkerField}
                                            className="WorkerField"
                                            name="WorkerName"
@@ -77,9 +82,9 @@ export default class AddWorker extends Component {
                             />
                         </Col>
                         <Col>
-                            <h3>
+                            <h4>
                                 ЗП $/ час
-                            </h3>
+                            </h4>
                             <NotNumberToolTipField name="WorkerCost" value={this.state.cost}
                                                    setIsSubmitted={(isRightPaymentField) => {
                                                        this.setIsRightPaymentField(isRightPaymentField)
@@ -95,9 +100,9 @@ export default class AddWorker extends Component {
 
                     <Row className='mt-5'>
                         <Col>
-                            <h3>
+                            <h4>
                                 Выберите специальность или добавьте новую:
-                            </h3>
+                            </h4>
                             <AlphabetInput setIsRightField={this.setIsRightWorkerField}
                                            className="WorkerField"
                                            name="WorkerSpecialty"

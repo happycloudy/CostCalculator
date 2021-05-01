@@ -7,20 +7,19 @@ import React from 'react'
 import Index from './pages/Index'
 import Workers from './pages/Workers'
 import Timeline from './pages/Timeline'
-import Navigation from './Components/Navigation'
 import Taskspage from "./pages/Taskspage";
 import Specialties from "./pages/Specialties";
+import Results from "./pages/Results";
 
 class App extends React.Component {
     render() {
         return (
-            <div className="App">
+            <div className="App min-vh-100">
                 <Router>
-                    <Navigation/>
-                    <div>
+                    <>
                         <Switch>
                             <Route exact path="/">
-                                <Index/>
+                                <Index />
                             </Route>
                             <Route path="/workers">
                                 <Workers/>
@@ -34,8 +33,11 @@ class App extends React.Component {
                             <Route path='/specialties'>
                                 <Specialties/>
                             </Route>
+                            <Route path='/results'>
+                                <Results/>
+                            </Route>
                         </Switch>
-                    </div>
+                    </>
                 </Router>
             </div>
         );

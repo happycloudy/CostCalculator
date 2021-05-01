@@ -46,6 +46,7 @@ class AddTaskSpecModal extends Component {
                                 this.state.specialties.map((spec, id) =>
                                     <Button className='mt-3'
                                             onClick={ ()=> this.sortWithSpecialty(spec) }
+                                            key={id}
                                     >
                                         {spec}
                                     </Button>

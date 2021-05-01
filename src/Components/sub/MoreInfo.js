@@ -13,13 +13,13 @@ export default function MoreInfo(props) {
     const [show, setShow] = useState(false);
     const [days, setDays] = useState(0)
     const [isOWRequest, setIsOWRequest] = useState(false)
+
     const handleClose = () => {
         props.ReloadInfo()
         setShow(false)
     }
 
     const handleShow = () => {
-        props.ReloadInfo()
         setShow(true)
     }
 
@@ -41,14 +41,9 @@ export default function MoreInfo(props) {
     }
     return (
         <>
-            {props.worker.tasks.length ?
-                <Button variant="primary" onClick={handleShow}>
-                    Подробнее...
-                </Button> :
-                <Button variant="primary" disabled>
-                    Нету заданий
-                </Button>
-            }
+            <Button variant="primary" onClick={handleShow}>
+                Подробнее...
+            </Button>
             <ModalSpecialties reloadInfo={props.ReloadInfo}
                               showSpec={showSpec}
                               setShow={setShow}
@@ -63,15 +58,15 @@ export default function MoreInfo(props) {
             />
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
+                    <>
                     <Row>
                         <Col>
-
-                            <Modal.Title>
-                                {props.worker.name}, {props.worker.specialty}
-                            </Modal.Title>
+                            <div>
+                                <h4>{props.worker.name},</h4>
+                                <br/>
+                                {props.worker.specialty}
+                            </div>
                         </Col>
-                    </Row>
-                    <Row>
                         <Col>
                             <Button onClick={() => {
                                 setShowSpec(true)
@@ -81,6 +76,7 @@ export default function MoreInfo(props) {
                             </Button>
                         </Col>
                     </Row>
+                    </>
                 </Modal.Header>
                 <Modal.Body className='text-center'>
                     <Button onClick={() => {

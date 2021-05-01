@@ -10,8 +10,9 @@ class AddTask extends Component {
             task: '',
             startTime: new Date(),
             endTime: '',
-            time: 0,
-            isOverWorked: false
+            time: '',
+            isOverWorked: false,
+            active: false
         }
         this.handleCheckboxOW = this.handleCheckboxOW.bind(this);
         this.addTask = this.addTask.bind(this);
@@ -20,35 +21,47 @@ class AddTask extends Component {
         this.handleStartDate = this.handleStartDate.bind(this);
     }
 
-    async handleTask(e){
+    async handleTask(e) {
+        if (this.state.task === '' || this.state.time === '') {
+            this.setState({active: false})
+        }
         this.setState({
             task: e.target.value
         })
+        if (this.state.task !== '' && this.state.time !== '') {
+            this.setState({active: true})
+        }
     }
 
-    async handleStartDate(e){
+    async handleStartDate(e) {
         await this.setState({
             startTime: e.target.value
         })
     }
 
-    async handleEndDate(e){
-        let endDate = await moment(this.state.startTime).add(e.target.value,'days')
+    async handleEndDate(e) {
+        if (this.state.task === '' || this.state.time === '') {
+            this.setState({active: false})
+        }
+        let endDate = await moment(this.state.startTime).add(e.target.value, 'days')
         await this.setState({
             time: e.target.value,
             endTime: `${endDate.year()}-${endDate.month()}-${endDate.date()}`
         })
+        if (this.state.task !== '' && this.state.time !== '') {
+            this.setState({active: true})
+        }
     }
 
-    async handleCheckboxOW(){
+    async handleCheckboxOW() {
         await this.setState({
             isOverWorked: !this.state.isOverWorked
         })
     }
 
-    async addTask(){
+    async addTask() {
         let StartDate = new Date(this.state.startTime)
-        await axios.post("/addworkertask",{
+        await axios.post("/addworkertask", {
             name: 'Свободно',
             task: this.state.task,
             time: this.state.time,
@@ -57,19 +70,19 @@ class AddTask extends Component {
             StartTime: `${StartDate.getFullYear()}-${StartDate.getMonth()}-${StartDate.getDate()}`,
             EndTime: this.state.endTime,
             isChooseBtwSp: undefined
-        }).then(res=> {
+        }).then(res => {
             console.log(res.data)
         })
     }
 
     render() {
         return (
-            <>
+            <div className='AddTaskWrap'>
                 <Row className='mt-5'>
                     <Col>
-                        <h4>
+                        <h3>
                             Добавить задание
-                        </h4>
+                        </h3>
                     </Col>
                 </Row>
                 <Row className='mt-2'>
@@ -77,14 +90,14 @@ class AddTask extends Component {
                         <h5>
                             Задание
                         </h5>
-                        <input required onChange={this.handleTask} value={this.state.task}/>
+                        <input required onChange={(e) => this.handleTask(e)}/>
                     </Col>
 
                     <Col>
                         <h5>
                             День начала задачи
                         </h5>
-                        <input type='date' onChange={(e)=> this.handleStartDate(e)}/>
+                        <input type='date' onChange={(e) => this.handleStartDate(e)}/>
                     </Col>
 
                     <Col>
@@ -100,17 +113,22 @@ class AddTask extends Component {
                         <h5>
                             Нужна ли переработка по данному заданию?
                         </h5>
-                        <input type={'checkbox'} onClick={this.handleCheckboxOW} />
+                        <input type={'checkbox'} onClick={this.handleCheckboxOW}/>
                     </Col>
                 </Row>
                 <Row className='mt-3'>
                     <Col>
-                        <Button onClick={this.addTask}>
-                            Добавить
-                        </Button>
+                        {
+                            this.state.active?
+                                <Button onClick={this.addTask}>
+                                    Добавить
+                                </Button>
+                                :
+                                null
+                        }
                     </Col>
                 </Row>
-            </>
+            </div>
         );
     }
 }

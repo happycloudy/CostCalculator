@@ -1,0 +1,17 @@
+.indexCard{
+    height: 20vh;
+    width: 20vw;
+    background: rgb(255,175,68);
+    background: linear-gradient(90deg, rgba(255,175,68,1) 0%, rgba(255,146,0,1) 100%);
+    transition: 0.3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.indexCard:hover{
+    -webkit-box-shadow: 5px 5px 5px -5px rgba(255, 255, 255, 0.6);
+    -moz-box-shadow: 5px 5px 5px -5px rgba(255, 255, 255, 0.6);
+    box-shadow: 5px 5px 5px -5px rgba(255, 255, 255, 0.6);
+    transform: scale(1.1, 1.1);
+
+}

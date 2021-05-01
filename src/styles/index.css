@@ -1,0 +1,81 @@
+body, .App {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: rgb(102,102,102);
+    background: linear-gradient(0deg, rgba(102,102,102,1) 0%, rgba(52,58,64,1) 100%) no-repeat;
+    background-size: cover;
+}
+
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+.wrap{
+    background-color: white;
+    border-radius: 10px;
+    min-height: 75vh;
+}
+
+.backbtn{
+    height: 50px;
+    width: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    left: 0;
+    top: 0;
+    margin-top: 5vh;
+    margin-left: 2vw;
+    background: white;
+    border-radius: 50px;
+    transition: 0.5s;
+}
+.backbtn:hover{
+    animation: backbtn 0.4s
+}
+
+@keyframes backbtn {
+    from {
+        transform: translateX(0)
+    }
+    25% {
+        transform: translateX(5px)
+    }
+    50% {
+        transform: translateX(-5px)
+    }
+    to {
+        transform: translateX(0)
+    }
+}
+
+.App {
+    text-align: center;
+}
+
+.AddWorkerWrap {
+    min-height: 40vh !important;
+}
+
+.AddTaskWrap, .AddWorkerWrap {
+    margin-top: 10vh;
+    min-height: 45vh;
+    background-color: #EEEEEE;
+    border-radius: 20px;
+}
+
+.Worker {
+    margin-top: 3vh;
+}
+
+.CostWrap {
+    margin-top: 10vh;
+    background-color: #EEEEEE;
+    border-radius: 20px;
+    font-size: 1.4rem;
+}
+
+

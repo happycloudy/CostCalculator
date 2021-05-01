@@ -6,16 +6,19 @@ const TaskBtn = (props) => {
     const [active, setActive] = useState(true)
     return (
         <>
-            <Button onClick={async () => {
-                console.log(active)
-                setActive(false)
-                chooseTask(props)
-                props.reloadInfo()
-            }}
-                    className='mt-3'
-            >
-                {props.task.task}
-            </Button>
+            {
+                active?
+                    <Button onClick={async () => {
+                        setActive(false)
+                        chooseTask(props)
+                        await props.reloadInfo()
+                    }}
+                            className='mt-3'
+                    >
+                        {props.task.task}
+                    </Button>
+                    : null
+            }
         </>
     );
 };
