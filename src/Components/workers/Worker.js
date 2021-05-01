@@ -54,7 +54,7 @@ class Worker extends React.Component {
                                                 >
                                                     {spec} ,
                                                 </div>
-                                                <div className='d-inline'
+                                                <div className='d-inline' style={{cursor: 'pointer'}}
                                                      onClick={async () => {
                                                          await this.props.RemoveSpecialty(spec, this.props.worker)
                                                          await this.getSpecialties()

@@ -55,6 +55,7 @@ class WorkersList extends Component {
                     <Col>
                         <SortWorkersDropdown setData={(data) => this.props.setData(data)}
                                              data={this.props.data}
+                                             reloadInfo={this.props.reloadInfo}
                         />
                     </Col>
                     <Col></Col>

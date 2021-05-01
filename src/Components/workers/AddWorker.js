@@ -101,16 +101,8 @@ export default class AddWorker extends Component {
                     <Row className='mt-5'>
                         <Col>
                             <h4>
-                                Выберите специальность или добавьте новую:
+                                Выберите специальность
                             </h4>
-                            <AlphabetInput setIsRightField={this.setIsRightWorkerField}
-                                           className="WorkerField"
-                                           name="WorkerSpecialty"
-                                           isRequest={false}
-                                           parseForm={(e)=> {
-                                               this.setState({currentSpecialty: e.target.value})
-                                           }}
-                            />
                         </Col>
                     </Row>
 
