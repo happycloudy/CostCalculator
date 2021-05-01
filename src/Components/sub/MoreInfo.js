@@ -20,7 +20,6 @@ export default function MoreInfo(props) {
 
     const handleShow = async () => {
         setShow(true)
-        await props.getSpecialties()
     }
 
 
@@ -46,14 +45,19 @@ export default function MoreInfo(props) {
             <Button variant="primary" onClick={handleShow}>
                 Подробнее...
             </Button>
-            <ModalSpecialties reloadInfo={props.ReloadInfo}
-                              showSpec={showSpec}
-                              setShow={setShow}
-                              worker={props.worker}
-                              setShowSpec={setShowSpec}
-                              specialties={props.specialties}
-                              getSpecialties={props.getSpecialties}
-            />
+            {
+                props.active?
+                    <ModalSpecialties reloadInfo={props.ReloadInfo}
+                                      showSpec={showSpec}
+                                      setShow={setShow}
+                                      worker={props.worker}
+                                      setShowSpec={setShowSpec}
+                                      specialties={props.specialties}
+                                      getSpecialties={props.getSpecialties}
+                    />
+                    :
+                    null
+            }
             <ChooseTaskModal showTasks={showTasks}
                              worker={props.worker}
                              reloadInfo={props.ReloadInfo}
@@ -72,12 +76,17 @@ export default function MoreInfo(props) {
                             </div>
                         </Col>
                         <Col>
-                            <Button onClick={() => {
-                                setShowSpec(true)
-                                setShow(false)
-                            }}>
-                                Добавить специализацию
-                            </Button>
+                            {props.active?
+                                <Button onClick={() => {
+                                    setShowSpec(true)
+                                    setShow(false)
+                                    props.getSpecialties()
+                                }}>
+                                    Добавить специализацию
+                                </Button>
+                                :
+                                null
+                            }
                         </Col>
                     </Row>
                     </>

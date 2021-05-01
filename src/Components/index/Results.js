@@ -101,7 +101,7 @@ export default class Cost extends React.Component {
                                         </button>
                                     </Col>
                                     <Col>
-                                        <MoreInfo worker={worker} ReloadInfo={this.ReloadInfo}/>
+                                        <MoreInfo worker={worker} ReloadInfo={this.ReloadInfo} active={false}/>
                                     </Col>
                                 </Row>
                                 <hr/>

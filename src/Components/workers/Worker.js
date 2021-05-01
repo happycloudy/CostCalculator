@@ -73,6 +73,7 @@ class Worker extends React.Component {
                                       ReloadInfo={this.props.reloadInfo}
                                       getSpecialties={this.getSpecialties}
                                       specialties={this.state.specialties}
+                                      active={true}
                             />
                         </Col>
                         <Col>
