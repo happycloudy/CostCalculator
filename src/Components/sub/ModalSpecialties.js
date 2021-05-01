@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, ListGroup, Modal} from "react-bootstrap";
+import {ListGroup, Modal} from "react-bootstrap";
 import axios from "axios";
 import ModalSpecBtn from "./ModalSpecBtn";
 
@@ -7,36 +7,25 @@ class ModalSpecialties extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            specialties: [],
             currentSpecialty: '',
             worker: {
                 specialty: []
             },
             active: true
         }
-        this.reloadInfo = this.reloadInfo.bind(this);
         this.addSpeciaty = this.addSpeciaty.bind(this);
+        this.refreshSpecialties = this.refreshSpecialties.bind(this);
     }
 
     async componentDidMount() {
-        await this.props.reloadInfo()
-        await this.reloadInfo()
+        await this.refreshSpecialties()
     }
 
-    async reloadInfo() {
+    async refreshSpecialties(){
+        await this.props.reloadInfo()
+        await this.props.getSpecialties()
         await this.setState({
             worker: this.props.worker
-        })
-        await axios.get('/getspecialties').then(res => {
-            let workersSpecs = this.state.worker.specialty.split('; ')
-            let specs = []
-
-            res.data.forEach(spec => {
-                if (!workersSpecs.find(workerSpec => workerSpec === spec)) specs.push(spec)
-            })
-            this.setState({
-                specialties: specs
-            })
         })
     }
 
@@ -46,7 +35,7 @@ class ModalSpecialties extends React.Component {
             specialty: this.state.currentSpecialty
         }).then(async _ => {
             await this.props.reloadInfo()
-            await this.reloadInfo()
+            await this.refreshSpecialties()
         })
     }
 
@@ -65,7 +54,7 @@ class ModalSpecialties extends React.Component {
                 <Modal.Body className='text-center'>
                     <ListGroup>
                         {
-                            this.state.specialties.map(spec =>
+                            this.props.specialties.map(spec =>
                                 <ModalSpecBtn setSpec={() => this.setState({currentSpecialty: spec})}
                                               addSpecialty={this.addSpeciaty}
                                               reloadInfo={this.props.reloadInfo}

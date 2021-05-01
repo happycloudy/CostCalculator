@@ -19,18 +19,15 @@ class AddTask extends Component {
         this.handleTask = this.handleTask.bind(this);
         this.handleEndDate = this.handleEndDate.bind(this);
         this.handleStartDate = this.handleStartDate.bind(this);
+        this.check = this.check.bind(this);
     }
 
     async handleTask(e) {
-        if (this.state.task === '' || this.state.time === '') {
-            this.setState({active: false})
-        }
-        this.setState({
+        await this.setState({
             task: e.target.value
         })
-        if (this.state.task !== '' && this.state.time !== '') {
-            this.setState({active: true})
-        }
+        console.log(this.state.task)
+        await this.check()
     }
 
     async handleStartDate(e) {
@@ -38,19 +35,23 @@ class AddTask extends Component {
             startTime: e.target.value
         })
     }
-
-    async handleEndDate(e) {
-        if (this.state.task === '' || this.state.time === '') {
-            this.setState({active: false})
+    
+    async check(){
+        if (this.state.task === '' || this.state.time === '' || isNaN(this.state.time) || this.state.time <= 0) {
+            await this.setState({active: false})
         }
+        if (this.state.task !== '' && this.state.time !== '' && !isNaN(this.state.time) && !(this.state.time <= 0)) {
+            await this.setState({active: true})
+        }
+    }
+    
+    async handleEndDate(e) {
         let endDate = await moment(this.state.startTime).add(e.target.value, 'days')
         await this.setState({
             time: e.target.value,
             endTime: `${endDate.year()}-${endDate.month()}-${endDate.date()}`
         })
-        if (this.state.task !== '' && this.state.time !== '') {
-            this.setState({active: true})
-        }
+        await this.check()
     }
 
     async handleCheckboxOW() {
@@ -61,6 +62,9 @@ class AddTask extends Component {
 
     async addTask() {
         let StartDate = new Date(this.state.startTime)
+        if(this.state.time === ''){
+            return
+        }
         await axios.post("/addworkertask", {
             name: 'Свободно',
             task: this.state.task,

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Col, Container, ListGroup, Row} from "react-bootstrap";
+import {Col, Container, ListGroup, Row} from "react-bootstrap";
 import axios from "axios";
 import TaskLi from "./TaskLi";
 import AddTask from "../tasks/AddTask";

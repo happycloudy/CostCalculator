@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Button, ListGroup} from "react-bootstrap";
+import {ListGroup} from "react-bootstrap";
 import ModalTask from "./ModalTask";
 
 const TaskLi = (props) => {

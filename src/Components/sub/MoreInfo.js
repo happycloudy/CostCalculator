@@ -15,13 +15,15 @@ export default function MoreInfo(props) {
     const [isOWRequest, setIsOWRequest] = useState(false)
 
     const handleClose = () => {
-        props.ReloadInfo()
         setShow(false)
     }
 
-    const handleShow = () => {
+    const handleShow = async () => {
         setShow(true)
+        await props.getSpecialties()
     }
+
+
 
     const sendTask = async () => {
         let StartDate = new Date()
@@ -49,6 +51,8 @@ export default function MoreInfo(props) {
                               setShow={setShow}
                               worker={props.worker}
                               setShowSpec={setShowSpec}
+                              specialties={props.specialties}
+                              getSpecialties={props.getSpecialties}
             />
             <ChooseTaskModal showTasks={showTasks}
                              worker={props.worker}

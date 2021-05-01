@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import axios from "axios";
-import {ListGroup, Row, Col, Button} from "react-bootstrap";
-import MoreInfo from "../sub/MoreInfo";
+import {ListGroup, Row, Col} from "react-bootstrap";
 import SortWorkersDropdown from "./SortWorkersDropdown";
+import Worker from "./Worker";
 
 
 class WorkersList extends Component {
@@ -13,20 +13,29 @@ class WorkersList extends Component {
             marginTop: '3vh',
             borderRadius: '10px'
         }
+        this.state = {
+            data: []
+        }
         this.RemoveSpecialty = this.RemoveSpecialty.bind(this);
+        this.refreshData = this.refreshData.bind(this);
     }
 
     async componentDidMount() {
+        await this.refreshData()
+    }
+
+    async refreshData(){
+        this.setState({data: this.props.data})
         await this.props.reloadInfo()
     }
 
-    RemoveSpecialty(spec, worker) {
+    async RemoveSpecialty(spec, worker) {
         axios.post('/removeworkerspec', {
             name: worker.name,
             spec: spec
         })
             .then(async _ => {
-                await this.props.reloadInfo()
+                await this.refreshData()
             })
             .catch((err) => console.log(err))
     }
@@ -55,47 +64,13 @@ class WorkersList extends Component {
                     {
                         Object.values(this.props.data).map((worker, ind) => {
                             return (
-                                <ListGroup.Item as="li"
-                                                key={ind}
-                                                variant='secondary'
-                                                className='mt-2'
-                                                style={this.styleList}>
-                                    <Row>
-                                        <Col>
-                                            <h5>
-                                                {worker.name},
-                                            </h5>
-                                            <h5>
-                                                {
-                                                    worker.specialty.split('; ').map(spec => {
-                                                        return (
-                                                            <div className='mt-2'>
-                                                                <div style={{textDecoration: 'underline'}}
-                                                                     className='d-inline'
-                                                                >
-                                                                    {spec} ,
-                                                                </div>
-                                                                <div className='d-inline'
-                                                                     onClick={() => this.RemoveSpecialty(spec, worker)}
-                                                                >
-                                                                    ❌
-                                                                </div>
-                                                            </div>
-                                                        )
-                                                    })
-                                                }
-                                            </h5>
-                                        </Col>
-                                        <Col>
-                                            <MoreInfo worker={worker} ReloadInfo={this.props.reloadInfo}/>
-                                        </Col>
-                                        <Col>
-                                            <Button className="btn btn-danger"
-                                                    onClick={() => this.RemoveWorker(worker)}>Удалить
-                                                сотрудника</Button>
-                                        </Col>
-                                    </Row>
-                                </ListGroup.Item>
+                                <Worker worker={worker}
+                                        key={ind}
+                                        reloadInfo={this.props.reloadInfo}
+                                        RemoveSpecialty={async (spec,worker) => this.RemoveSpecialty(spec, worker)}
+                                        RemoveWorker={(worker)=> this.RemoveWorker(worker)}
+
+                                />
                             )
                         })
                     }
