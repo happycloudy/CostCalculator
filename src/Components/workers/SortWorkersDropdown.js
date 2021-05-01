@@ -33,7 +33,7 @@ const SortWorkersDropdown = (props) => {
     }
     return (
         <Dropdown>
-            <Dropdown.Toggle variant="success" id="dropdown-basic">
+            <Dropdown.Toggle variant="success " id="dropdown-basic">
                 {sortType}
             </Dropdown.Toggle>
 
